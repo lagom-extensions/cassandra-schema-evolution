@@ -1,0 +1,1 @@
+insert into test_users (id, name) values (34df39ad-2d37-4a15-bdac-7f7ad241a0b2,'test_generated_user_name_1');

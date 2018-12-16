@@ -1,0 +1,1 @@
+DROP KEYSPACE IF EXISTS auto_migrate_test;

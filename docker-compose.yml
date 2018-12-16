@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  cassandra:
+    container_name: cassandra
+    image: cassandra:latest
+    ports:
+      - "9042:9042"   # Native transport
+      - "7199:7199"   # JMX
+      - "9160:9160"   # Thrift clients
+  cassandra-migration:
+    container_name: cassandra-migration
+    environment:
+      - CASSANDRA_CONTACT_POINT=cassandra
+      - USER=docker-cassandra-migration
+      - CREATE_KEYSPACE_SCRIPT=create-keyspace.cql
+      - SCRIPTS_KEYSPACE_NAME=auto_migrate_test
+      - DEBUG_LOG=1 # uncomment to show debug logs during the migration process
+    build:
+      context: .
+      dockerfile: cassandra/Cassandra-Migration.Dockerfile
+    volumes:
+      - ./cassandra/cql:/cql:ro
+    depends_on:
+      - cassandra
